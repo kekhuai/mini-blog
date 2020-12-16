@@ -29,7 +29,8 @@ export default {
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/fontawesome'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -37,11 +38,15 @@ export default {
     // https://go.nuxtjs.dev/bootstrap
     '@nuxtjs/bulma',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseUrl: 'http://localhost:8080'
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
@@ -52,5 +57,33 @@ export default {
         }
       }
     }
+  },
+  auth: {
+    redirect: {
+      login: '/user/sign-in',
+      home: '/blog/list'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'accessToken'
+        },
+        endpoints: {
+          login: { url: 'http://localhost:8080/api/v1/auth/sign-in', method: 'post' },
+          user: false
+        }
+      }
+    }
+  },
+  fontawesome: {
+    component: 'fa',
+    icons: {
+      solid: ['faUser', 'faCheck', 'faLock']
+    }
+  },
+  toast: {
+    position: 'top-center',
+    duration: 5000,
+    singleton: true
   }
 }
