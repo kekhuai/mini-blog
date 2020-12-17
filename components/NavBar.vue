@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-start">
       <a class="navbar-item">
-        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/blog/list">Home</NuxtLink>
       </a>
     </div>
 
@@ -10,8 +10,13 @@
       <div class="navbar-end">
         <div v-if="$auth.loggedIn" class="navbar-item">
           <div class="buttons">
-            <a class="button is-light">
-              <NuxtLink to="/user/sign-in">Sign out</NuxtLink>
+            <a class="button is-primary">
+              <NuxtLink to="/blog/create">
+                <strong>New blog</strong>
+              </NuxtLink>
+            </a>
+            <a class="button is-light" @click="signOut">
+              Sign out
             </a>
           </div>
         </div>
@@ -34,9 +39,11 @@
 
 <script>
 export default {
-  data () {
-    return {
-      userLoggedIn: this.$auth.loggedIn
+  methods: {
+    signOut () {
+      this.$auth.logout().then(() => {
+        this.$router.push('/user/sign-in')
+      })
     }
   }
 }

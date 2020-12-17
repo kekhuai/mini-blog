@@ -1,11 +1,23 @@
 <template>
   <div>
-    <Blog v-for="index in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" :key="index" />
+    <Blog
+      v-for="blog in $store.getters['blog/loadedBlogs']"
+      :key="blog.id"
+      v-bind="blog"
+      class="blog"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  middleware: 'auth'
+  async fetch () {
+    await this.$store.dispatch('blog/fetch')
+  }
 }
 </script>
+
+<style lang="sass" scoped>
+.blog
+  margin-bottom: 16px
+</style>

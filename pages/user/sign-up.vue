@@ -46,9 +46,9 @@ export default {
         username: this.username,
         password: this.password
       }).then(() => {
-        this.$router.push('/blog/list')
+        return this.$router.push('/blog/list')
       }).catch((err) => {
-        this.$toast.success(err.response.data.message)
+        this.$toast.error(err.response.data.message)
       })
     }
   }

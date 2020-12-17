@@ -1,6 +1,6 @@
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
-  target: 'static',
+  target: 'server',
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -30,7 +30,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/moment'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -44,9 +45,7 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {
-    baseUrl: 'http://localhost:8080'
-  },
+  axios: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
@@ -68,6 +67,9 @@ export default {
         token: {
           property: 'accessToken'
         },
+        user: {
+          autoFetch: false
+        },
         endpoints: {
           login: { url: 'http://localhost:8080/api/v1/auth/sign-in', method: 'post' },
           user: false
@@ -85,5 +87,9 @@ export default {
     position: 'top-center',
     duration: 5000,
     singleton: true
+  },
+  moment: {
+    defaultLocale: 'th',
+    locales: ['th']
   }
 }

@@ -1,27 +1,86 @@
 <template>
   <div class="card">
     <header class="card-header">
-      <p class="card-header-title">
-        Component
-      </p>
-      <a href="#" class="card-header-icon" aria-label="more options">
-        <span class="icon">
-          <i class="fas fa-angle-down" aria-hidden="true" />
-        </span>
-      </a>
+      <div class="card-header-title">
+        {{ name }}
+        <span class="tag is-info">{{ status }}</span>
+      </div>
     </header>
     <div class="card-content">
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-        <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+        {{ content }}
         <br>
-        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+        <span>Updated by {{ author.username }} {{ fromNow }}</span>
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Save</a>
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <a
+        v-if="$auth.user === author.id.toString()"
+        href="#"
+        class="card-footer-item"
+      >
+        Edit
+      </a>
+      <a
+        v-if="$auth.user === author.id.toString()"
+        href="#"
+        class="card-footer-item"
+        @click="deleteBlog"
+      >
+        Delete
+      </a>
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    id: {
+      type: Number,
+      default: null
+    },
+    name: {
+      type: String,
+      default: null
+    },
+    status: {
+      type: String,
+      default: null
+    },
+    category: {
+      type: String,
+      default: null
+    },
+    content: {
+      type: String,
+      default: null
+    },
+    createdAt: {
+      type: String,
+      default: null
+    },
+    author: {
+      type: Object,
+      default: null
+    }
+  },
+  computed: {
+    fromNow () {
+      return this.$moment.utc(this.createdAt).local().fromNow()
+    }
+  },
+  methods: {
+    deleteBlog () {
+      return this.$store.dispatch('blog/delete', this.id).then(() => {
+        return this.$store.dispatch('blog/fetch')
+      })
+    }
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+.tag
+  margin-left: auto
+</style>

@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import jwt from 'jsonwebtoken'
+
 export default {
   data () {
     return {
@@ -47,6 +49,10 @@ export default {
           username: this.username,
           password: this.password
         }
+      }).then(() => {
+        const accessToken = this.$auth.strategy.token.get().substring(7)
+        const claims = jwt.decode(accessToken)
+        this.$auth.setUser(claims.sub)
       }).catch((err) => {
         this.$toast.error(err.response.data.message)
       })
