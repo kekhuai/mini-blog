@@ -21,8 +21,10 @@ export const actions = {
   },
   nuxtServerInit () {
     const accessToken = this.$auth.strategy.token.get()
-    const claims = jwt.decode(accessToken.substring(7))
-    this.$auth.setUser(claims.sub)
+    if (accessToken) {
+      const claims = jwt.decode(accessToken.substring(7))
+      this.$auth.setUser(claims.sub)
+    }
   }
 }
 

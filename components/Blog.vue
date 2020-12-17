@@ -16,14 +16,13 @@
     <footer class="card-footer">
       <a
         v-if="$auth.user === author.id.toString()"
-        href="#"
         class="card-footer-item"
+        @click="goToEdit"
       >
         Edit
       </a>
       <a
         v-if="$auth.user === author.id.toString()"
-        href="#"
         class="card-footer-item"
         @click="deleteBlog"
       >
@@ -74,7 +73,12 @@ export default {
     deleteBlog () {
       return this.$store.dispatch('blog/delete', this.id).then(() => {
         return this.$store.dispatch('blog/fetch')
+      }).then(() => {
+        this.$toast.success('Blog deleted successfully')
       })
+    },
+    goToEdit () {
+      this.$router.push(`/blog/${this.id}`)
     }
   }
 }

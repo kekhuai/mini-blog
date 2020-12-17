@@ -46,6 +46,7 @@ export default {
         username: this.username,
         password: this.password
       }).then(() => {
+        this.$toast.success('Blog created successfully')
         return this.$router.push('/blog/list')
       }).catch((err) => {
         this.$toast.error(err.response.data.message)
